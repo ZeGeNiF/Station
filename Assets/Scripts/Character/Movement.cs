@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
     PlayerInput playerInput;
     InputAction moveAction;
     Animator animator;
+    PlayerAim playerAim;
 
     [SerializeField] float speed = 5f;
     [SerializeField] float rotationSpeed = 15f;
@@ -23,6 +24,8 @@ public class Movement : MonoBehaviour
         { 
             cameraTransform = Camera.main.transform;
         }
+
+        playerAim = GetComponent<PlayerAim>();
     }
 
     private void FixedUpdate()
@@ -56,7 +59,8 @@ public class Movement : MonoBehaviour
         transform.position += direction * speed * Time.deltaTime;
 
         //Поворот в направления движения
-        if (direction.sqrMagnitude > 0.01f)
+        if ((playerAim == null || !playerAim.IsAiming) 
+            && direction.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
@@ -64,7 +68,7 @@ public class Movement : MonoBehaviour
                 transform.rotation,
                 targetRotation,
                 rotationSpeed * Time.deltaTime
-                );
+            );
         }
     }
 

@@ -20,8 +20,12 @@
   https://assetstore.unity.com/packages/3d/characters/robots/cyber-soldier-52064
 - **FREE - 32 RPG Animations** — набор анимаций:  
   https://assetstore.unity.com/packages/3d/animations/free-32-rpg-animations-215058
+  **Zombie 1 (Low Poly)** — 3D-модель противника:
+  https://assetstore.unity.com/packages/3d/characters/humanoids/humans/zombie-1-low-poly-232270
+  **Mixamo** — отдельные анимации персонажа, использованные для настройки игрового процесса:
+  https://www.mixamo.com/
 
-Исходные файлы этих ассетов не включены в публичный репозиторий. Они используются в соответствии с применимыми условиями лицензирования Unity Asset Store.
+Исходные файлы сторонних ассетов не включены в публичный репозиторий. Для восстановления проекта может потребоваться самостоятельно получить и импортировать соответствующие ресурсы. Использование и распространение ассетов должно соответствовать условиям их лицензий.
 
 ## Как открыть проект
 

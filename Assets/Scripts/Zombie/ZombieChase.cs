@@ -13,6 +13,7 @@ public class ZombieChase : MonoBehaviour
     private PlayerHealth playerHealth;
     private NavMeshAgent agent;
     private Animator animator;
+    private ZombieHealth zombieHealth;
     private bool hasDetectedPlayer = false;
     private float nextAttackTime = 0f;
 
@@ -20,10 +21,17 @@ public class ZombieChase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        zombieHealth = GetComponent<ZombieHealth>();
     }
 
     private void Update()
     {
+        if (zombieHealth != null && zombieHealth.IsKnockedBack)
+            return;
+
+        if (GetComponent<ZombieHealth>()?.IsKnockedBack == true)
+            return;
+
         if (playerHealth != null && playerHealth.IsDead)
         {
             if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)

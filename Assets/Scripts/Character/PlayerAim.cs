@@ -8,16 +8,11 @@ public class PlayerAim : MonoBehaviour
     [Header("Настройки прицеливания")]
     [SerializeField] private float aimRange = 8f;
     [SerializeField] private float rotationSpeed = 8f;
-
-    [Header("Переключение целей")]
-    [SerializeField] private float scrollSensitivity = 120f;
-
     private ZombieHealth currentTarget;
     private bool isAiming;
     private bool aimButtonHeld;
 
     private readonly List<ZombieHealth> targets = new();
-    private float scrollAccumulator;
 
     public bool IsAiming => isAiming;
     public ZombieHealth CurrentTarget => currentTarget;
@@ -30,7 +25,6 @@ public class PlayerAim : MonoBehaviour
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             aimButtonHeld = true;
-            scrollAccumulator = 0f;
 
             RefreshTargets();
             SetTarget(FindNearestEnemy());
@@ -203,7 +197,6 @@ public class PlayerAim : MonoBehaviour
     {
         SetTarget(null);
         targets.Clear();
-        scrollAccumulator = 0f;
     }
 
     private void OnDisable()
@@ -221,6 +214,5 @@ public class PlayerAim : MonoBehaviour
         isAiming = false;
         aimButtonHeld = false;
         targets.Clear();
-        scrollAccumulator = 0f;
     }
 }

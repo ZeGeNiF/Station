@@ -5,7 +5,7 @@ public class PlayerShooting : MonoBehaviour
 {
     [Header("Настройка стрельбы")]
     [SerializeField] private float shotDamage = 25f;
-    [SerializeField] private float shotRange = 20;
+    [SerializeField] private float shotRange = 20f;
     [SerializeField] private float shotHeight = 1.2f;
 
     private WeaponInventory weaponInventory;
@@ -22,12 +22,9 @@ public class PlayerShooting : MonoBehaviour
         if (Mouse.current == null)
             return;
 
-        // Один выстрел на каждое нажатие ЛКМ.
         if (!Mouse.current.leftButton.wasPressedThisFrame)
             return;
 
-        // Стрелять можно только с оружием в руках
-        // и в режиме огнестрельного оружия.
         if (weaponInventory == null ||
             !weaponInventory.HasWeapon ||
             weaponInventory.CurrentMode != WeaponInventory.CombatMode.Ranged)
@@ -35,7 +32,6 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        // Для выстрела необходимо прицелиться во врага.
         if (playerAim == null ||
             !playerAim.IsAiming ||
             playerAim.CurrentTarget == null ||
@@ -44,13 +40,11 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        // Без патронов выстрел не возможен.
         if (!weaponInventory.TryUseAmmo())
             return;
 
         Shoot(playerAim.CurrentTarget);
     }
-
 
     private void Shoot(ZombieHealth target)
     {
@@ -77,6 +71,17 @@ public class PlayerShooting : MonoBehaviour
             if (hitZombie != null && !hitZombie.IsDead)
             {
                 hitZombie.TakeDamage(shotDamage);
+
+                // Отталкиваем только в том случае,
+                // если попадание не убило врага.
+                if (!hitZombie.IsDead)
+                {
+                    Vector3 knockbackDirection =
+                        hitZombie.transform.position - transform.position;
+
+                    hitZombie.ApplyKnockback(knockbackDirection);
+                }
+
                 Debug.Log("Попадание по зомби! Урон: " + shotDamage);
             }
             else
@@ -94,7 +99,8 @@ public class PlayerShooting : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
 
-        Vector3 origin = transform.position + Vector3.up * shotHeight;
+        Vector3 origin =
+            transform.position + Vector3.up * shotHeight;
 
         Gizmos.DrawRay(
             origin,
